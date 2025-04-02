@@ -16,6 +16,9 @@ class Program
 
         corredorA.Start("Corredor A");
         corredorB.Start("Corredor B");
+        corredorC.Start("Corredor C");
+        corredorD.Start("Corredor D");
+        corredorE.Start("Corredor E");
 
         corredorA.Join();
         corredorB.Join();
