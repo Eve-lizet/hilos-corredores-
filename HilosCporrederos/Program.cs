@@ -17,11 +17,10 @@ class Program
             corredores[i].Start(nombreCorredor);
         }
 
-        corredorA.Join();
-        corredorB.Join();
-        corredorC.Join();
-        corredorD.Join();
-        corredorE.Join();
+        foreach (Thread corredor in corredores)
+        {
+            corredor.Join();
+        }
 
 
         Console.WriteLine("¡Carrera terminada!");
