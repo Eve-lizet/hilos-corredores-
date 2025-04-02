@@ -22,6 +22,10 @@ class Program
 
         corredorA.Join();
         corredorB.Join();
+        corredorC.Join();
+        corredorD.Join();
+        corredorE.Join();
+
 
         Console.WriteLine("¡Carrera terminada!");
     }
