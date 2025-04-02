@@ -9,6 +9,10 @@ class Program
         // Crear dos corredores
         Thread corredorA = new Thread(Correr);
         Thread corredorB = new Thread(Correr);
+        Thread corredorC = new Thread(Correr);
+        Thread corredorD = new Thread(Correr);
+        Thread corredorE = new Thread(Correr);
+
 
         corredorA.Start("Corredor A");
         corredorB.Start("Corredor B");
