@@ -10,12 +10,12 @@ class Program
         int numCorredores = 5;
         Thread[] corredores = new Thread[numCorredores];
 
-
-        corredorA.Start("Corredor A");
-        corredorB.Start("Corredor B");
-        corredorC.Start("Corredor C");
-        corredorD.Start("Corredor D");
-        corredorE.Start("Corredor E");
+        for (int i = 0; i < numCorredores; i++)
+        {
+            string nombreCorredor = $"Corredor {i + 1}";
+            corredores[i] = new Thread(Correr);
+            corredores[i].Start(nombreCorredor);
+        }
 
         corredorA.Join();
         corredorB.Join();
