@@ -7,11 +7,8 @@ class Program
         Console.WriteLine("¡Carrera de hilos!");
 
         // Crear dos corredores
-        Thread corredorA = new Thread(Correr);
-        Thread corredorB = new Thread(Correr);
-        Thread corredorC = new Thread(Correr);
-        Thread corredorD = new Thread(Correr);
-        Thread corredorE = new Thread(Correr);
+        int numCorredores = 5;
+        Thread[] corredores = new Thread[numCorredores];
 
 
         corredorA.Start("Corredor A");
