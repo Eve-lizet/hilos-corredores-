@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HilosCporrederos", "HilosCporrederos\HilosCporrederos.csproj", "{EFFEAAD8-4013-4D0A-BF64-CBB703823A57}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hilosproyecto1", "hilosproyecto1\hilosproyecto1.csproj", "{2F1CFE7B-9196-4C7B-B7BF-3606B7D7B516}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EFFEAAD8-4013-4D0A-BF64-CBB703823A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFFEAAD8-4013-4D0A-BF64-CBB703823A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFFEAAD8-4013-4D0A-BF64-CBB703823A57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F1CFE7B-9196-4C7B-B7BF-3606B7D7B516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F1CFE7B-9196-4C7B-B7BF-3606B7D7B516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F1CFE7B-9196-4C7B-B7BF-3606B7D7B516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F1CFE7B-9196-4C7B-B7BF-3606B7D7B516}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
