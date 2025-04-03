@@ -4,98 +4,80 @@ using System.Threading;
 
 class Restaurante
 {
-    static Queue<string> pedidos = new Queue<string>(); // Cola de pedidos
-    static object lockObject = new object(); // Para sincronización
-    static SemaphoreSlim semaforoCocineros = new SemaphoreSlim(2); // Máximo 2 cocineros trabajando
-    static Random random = new Random();
+    static Queue<string> pedidos = new Queue<string>();
+    static object lockObject = new object();
+    static bool cerrado = false;
 
     static void Main()
     {
-        Thread[] clientes = new Thread[5];
-        Thread[] cocineros = new Thread[3];
-        Thread cajero = new Thread(RegistrarPedidos);
+        // Crear 1 hilo para cliente y 1 para cocinero
+        Thread cliente = new Thread(GenerarPedidos);
+        Thread cocinero = new Thread(PrepararPedidos);
 
-        // Iniciar clientes (generan pedidos)
-        for (int i = 0; i < clientes.Length; i++)
-        {
-            clientes[i] = new Thread(GenerarPedido);
-            clientes[i].Start($"Cliente {i + 1}");
-        }
+        cliente.Start();
+        cocinero.Start();
 
-        // Iniciar cocineros (procesan pedidos)
-        for (int i = 0; i < cocineros.Length; i++)
-        {
-            cocineros[i] = new Thread(PrepararPedido);
-            cocineros[i].Start($"Cocinero {i + 1}");
-        }
+        // Esperar a que termine el cliente
+        cliente.Join();
 
-        // Iniciar cajero (registra pedidos completados)
-        cajero.Start();
-
-        // Esperar a que terminen los clientes y cocineros
-        foreach (Thread cliente in clientes) cliente.Join();
-        foreach (Thread cocinero in cocineros) cocinero.Join();
-
-        // Finalizar cajero
+        // Avisar que el restaurante cerró
         lock (lockObject)
         {
-            pedidos.Enqueue("FIN"); // Señal para que el cajero termine
+            cerrado = true;
         }
-        cajero.Join();
 
-        Console.WriteLine("El restaurante ha cerrado.");
+        // Esperar a que termine el cocinero
+        cocinero.Join();
+
+        Console.WriteLine("Restaurante cerrado");
     }
 
-    // Cliente: Genera un pedido y lo agrega a la cola
-    static void GenerarPedido(object cliente)
+    static void GenerarPedidos()
     {
-        string[] menu = { "Pizza", "Hamburguesa", "Sushi", "Pasta", "Ensalada" };
-        string pedido = menu[random.Next(menu.Length)];
+        string[] menu = { "Pizza", "Hamburguesa", "Ensalada" };
 
-        lock (lockObject)
+        for (int i = 1; i <= 3; i++) // Solo 3 pedidos
         {
-            pedidos.Enqueue($"{cliente} ordenó {pedido}");
-            Console.WriteLine($"{cliente} hizo un pedido de {pedido}");
-        }
-        Thread.Sleep(random.Next(500, 1500)); // Simula tiempo entre pedidos
-    }
-
-    // Cocinero: Procesa pedidos de la cola
-    static void PrepararPedido(object cocinero)
-    {
-        while (true)
-        {
-            string pedido;
+            string pedido = menu[new Random().Next(menu.Length)];
 
             lock (lockObject)
             {
-                if (pedidos.Count == 0) return; // No hay pedidos, el cocinero termina
-                pedido = pedidos.Dequeue();
+                pedidos.Enqueue(pedido);
+                Console.WriteLine($"Pedido recibido: {pedido}");
             }
 
-            semaforoCocineros.Wait(); // Controla el número de cocineros activos
-            Console.WriteLine($"{cocinero} está preparando {pedido}...");
-            Thread.Sleep(random.Next(1000, 3000)); // Simula el tiempo de preparación
-            Console.WriteLine($"{cocinero} ha terminado {pedido}");
-            semaforoCocineros.Release();
+            Thread.Sleep(1000); // Espera 1 segundo entre pedidos
         }
     }
 
-    // Cajero: Registra pedidos completados
-    static void RegistrarPedidos()
+    static void PrepararPedidos()
     {
         while (true)
         {
+            string pedido = null;
+
             lock (lockObject)
             {
                 if (pedidos.Count > 0)
                 {
-                    string pedido = pedidos.Peek();
-                    if (pedido == "FIN") break; // Señal de fin
+                    pedido = pedidos.Dequeue();
+                }
+                else if (cerrado)
+                {
+                    break; // Salir si no hay pedidos y el restaurante cerró
                 }
             }
-            Thread.Sleep(1000); // Simula tiempo de registro
+
+            if (pedido != null)
+            {
+                Console.WriteLine($"Preparando: {pedido}");
+                Thread.Sleep(2000); // Tiempo de preparación
+                Console.WriteLine($"Pedido listo: {pedido}");
+            }
+            else
+            {
+                Thread.Sleep(500); // Espera breve si no hay pedidos
+            }
         }
-        Console.WriteLine("Cajero ha terminado de registrar los pedidos.");
     }
 }
