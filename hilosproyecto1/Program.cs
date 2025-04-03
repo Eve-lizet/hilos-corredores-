@@ -14,10 +14,12 @@ class Restaurante
         Thread cliente = new Thread(GenerarPedidos);
         Thread cliente2 = new Thread(GenerarPedidos);
         Thread cocinero = new Thread(PrepararPedidos);
+        Thread cocinero2 = new Thread(PrepararPedidos);
 
         cliente.Start();
         cliente2.Start();
         cocinero.Start();
+        cocinero2.Start();
 
         // Esperar a que termine el cliente
         cliente.Join();
@@ -30,6 +32,7 @@ class Restaurante
 
         // Esperar a que termine el cocinero
         cocinero.Join();
+        cocinero2.Join();
 
         Console.WriteLine("Restaurante cerrado");
     }
