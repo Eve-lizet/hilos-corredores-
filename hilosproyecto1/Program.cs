@@ -13,17 +13,22 @@ class Restaurante
         // Crear 1 hilo para cliente y 1 para cocinero
         Thread cliente = new Thread(GenerarPedidos);
         Thread cliente2 = new Thread(GenerarPedidos);
+        Thread cliente3 = new Thread(GenerarPedidos);
         Thread cocinero = new Thread(PrepararPedidos);
         Thread cocinero2 = new Thread(PrepararPedidos);
 
         cliente.Start();
         cliente2.Start();
+        cliente3.Start();
         cocinero.Start();
         cocinero2.Start();
 
         // Esperar a que termine el cliente
         cliente.Join();
         cliente2.Join();
+        cliente3.Join();
+
+
         // Avisar que el restaurante cerró
         lock (lockObject)
         {
