@@ -46,7 +46,7 @@ class Restaurante
     {
         string[] menu = { "Pizza", "Hamburguesa", "Ensalada" };
 
-        for (int i = 1; i <= 3; i++) // Solo 3 pedidos
+        for (int i = 1; i <=5; i++) // Solo 3 pedidos
         {
             string pedido = menu[new Random().Next(menu.Length)];
 
